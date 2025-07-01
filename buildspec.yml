@@ -1,0 +1,15 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo "Fetching latest key from S3..."
+      - aws s3 cp s3://cache-mahesh/froma/latest-key.txt key.txt
+      - export FILE_KEY=$(cat key.txt)
+
+  build:
+    commands:
+      - echo "Downloading file: $FILE_KEY"
+      - aws s3 cp s3://cache-mahesh/froma/$FILE_KEY downloaded.txt
+      - echo "File content:"
+      - cat downloaded.txt
